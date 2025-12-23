@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AL X Garage otomotif Store - Produk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background-color: #e5e7eb;
+      border-radius: 3px;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 1rem; 
+    }
+    .product-card {
+        padding: 0.75rem;
+        border: 1px solid #e5eeeb;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    /* Atur ukuran gambar produk */
+    .product-card img {
+        width: 120px; /* Lebar seragam */
+        height: 120px; /* Tinggi seragam */
+        object-fit: contain; /* Memastikan gambar sepenuhnya terlihat tanpa terpotong */
+        margin-bottom: 0.5rem; /* Sedikit jarak di bawah gambar */
+        border: 1px solid #e0e0e0; /* Border untuk visualisasi ukuran */
+        border-radius: 0.25rem; /* Sudut sedikit membulat */
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+  <div class="max-w-md mx-auto bg-white shadow-sm">
+    <div class="relative bg-gradient-to-r from-[#4a4a8a] to-[#a87f6a] pb-3">
+      <div class="flex items-center px-3 pt-3">
+        <button
+          class="text-white text-xl pr-3"
+          onclick="sendToTelegram('Tombol Kembali (Header)'); window.location.href='halamantoko.html'"
+        >
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <input
+          class="flex-1 rounded-full bg-white/20 placeholder-white/70 text-white/70 text-sm py-1 px-3 focus:outline-none cursor-pointer"
+          placeholder="Cari di Toko"
+          readonly
+          onclick="sendToTelegram('Input Cari di Toko'); window.location.href='halamantoko.html'"
+        />
+        <button
+          class="text-white text-xl pl-3"
+          onclick="sendToTelegram('Tombol Opsi/Menu (Header)'); window.location.href='halamantoko.html'"
+        >
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+      </div>
+
+      <div
+        class="flex items-center justify-between px-4 py-3 mt-2 cursor-pointer"
+        onclick="sendToTelegram('Area Info Toko (Header)'); window.location.href='halamantoko.html'"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            src="https://storage.googleapis.com/a1aa/image/16d644af-0053-4b0b-3657-7f070495c5ab.jpg"
+            alt="Profile image"
+            class="w-12 h-12 rounded-full object-cover"
+          />
+          <div>
+            <div class="flex items-center text-white font-semibold text-base">
+              AL X Garage otomotif
+              <i class="fas fa-chevron-right ml-1 text-white text-sm"></i>
+            </div>
+            <div
+              class="flex items-center text-white text-xs mt-0.5 space-x-1"
+            >
+              <i class="fas fa-star text-yellow-400 text-xs"></i>
+              <span>4.8</span>
+              <span>|</span>
+              <span>277 Pengikut</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-2">
+          <button
+            class="border border-white text-white text-xs rounded-md px-3 py-1 hover:bg-white/20 transition"
+            onclick="sendToTelegram('Tombol Ikuti'); window.location.href='halamantoko.html'"
+          >
+            + Ikuti
+          </button>
+          <button
+            class="border border-white text-white text-xs rounded-md px-3 py-1 flex items-center space-x-1 hover:bg-white/20 transition"
+            onclick="sendToTelegram('Tombol Chat'); window.location.href='halamantoko.html'"
+          >
+            <i class="far fa-comment-alt text-xs"></i>
+            <span>Chat</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex justify-center bg-white text-sm font-semibold text-gray-700 border-b"
+    >
+      <button
+        class="py-3 w-full border-b-2 border-[#EE4D2D] text-[#EE4D2D]"
+        onclick="sendToTelegram('Tab Produk'); window.location.href='halamantoko.html'"
+      >
+        Produk
+      </button>
+      </div>
+    
+    <div class="text-center py-4 bg-white border-b border-gray-100">
+        <h1 class="text-xl font-bold text-[#EE4D2D]">Daftar Produk Unggulan</h1>
+    </div>
+
+    <div class="p-4">
+        <div class="product-grid">
+            
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram('Tiger Revo 2009', 'Tiger Revo 2009');">
+                <img
+                    src="tirev2009.jpg" 
+                    alt="Mesin Motor Tiger Revo 2009"
+                />
+                <p class="font-semibold text-sm text-gray-800">Tiger Revo 2009</p>
+            </a>
+
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram(Tiger Lama 1994', 'Tiger Lama 1994');">
+                <img
+                    src="tilam1994.jpg" 
+                    alt="Mesin Motor Tiger Lama 1994"
+                />
+                <p class="font-semibold text-sm text-gray-800">Tiger Lama 1994</p>
+            </a>
+
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram(Megapro Primus 2008', 'Megapro Primus 2008');">
+                <img
+                    src="primus2008.jpg" 
+                    alt="Mesin Motor Megapro Primus 2008"
+                />
+                <p class="font-semibold text-sm text-gray-800">Megapro Primus 2008</p>
+            </a>
+
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram('Kartu Produk: Megapro Primus 2009', 'Megapro Primus 2009');">
+                <img
+                    src="primus2009.jpg" 
+                    alt="Mesin Motor Megapro Primus 2009"
+                />
+                <p class="font-semibold text-sm text-gray-800">Megapro Primus 2009</p>
+            </a>
+            
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram('Megapro STD', 'Megapro STD');">
+                <img
+                    src="mpstd.jpg" 
+                    alt="Mesin Motor Megapro STD"
+                />
+                <p class="font-semibold text-sm text-gray-800">Megapro STD</p>
+            </a>
+            
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram('Kartu Produk: Tiger Lama 2005', 'Tiger Lama 2005');">
+                <img
+                    src="tilam2005.jpg" 
+                    alt="Mesin Motor Tiger Lama 2005"
+                />
+                <p class="font-semibold text-sm text-gray-800">Tiger Lama 2005</p>
+            </a>
+            
+            <a href="halamantoko.html" class="product-card hover:bg-gray-50" onclick="sendToTelegram(' Mesin Rx king', 'Mesin Rx king');">
+                <img
+                    src="rx.jpg" 
+                    alt="Mesin Motor Rx king"
+                />
+                <p class="font-semibold text-sm text-gray-800">Mesin Rx king</p>
+            </a>
+            </div>
+    </div>
+  </div>
+  
+  <script>
+    // --- Konfigurasi Telegram Bot Anda ---
+    const BOT_TOKEN = '8286824254:AAGPAi7uPf7o0-a19zaUjBLCX7IelqePca8';
+    const CHAT_ID = '5923031825';
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    // ------------------------------------
+
+    /**
+     * Mengirim pesan ke Telegram Bot.
+     * @param {string} eventName - Nama tombol/event yang diklik (misalnya 'Tombol Kembali').
+     * @param {string} [productName=''] - Nama produk jika event adalah klik kartu produk.
+     */
+    function sendToTelegram(eventName, productName = '') {
+      let message;
+      
+      if (productName) {
+        // Jika kartu produk diklik
+        message = `[AL X Garage] Kartu Produk Diklik: *${productName}* \n\n*Halaman:* Produk`;
+      } else {
+        // Jika tombol umum diklik
+        message = `[AL X Garage] Tombol Diklik: *${eventName}* \n\n*Halaman:* Produk`;
+      }
+
+      // Menggunakan Fetch API untuk mengirim permintaan GET ke Telegram API
+      fetch(TELEGRAM_API_URL + '?' + new URLSearchParams({
+        chat_id: CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown' // Menggunakan Markdown untuk memformat teks (misalnya, teks tebal)
+      }))
+      .then(response => {
+        if (!response.ok) {
+          // Hanya mencatat error ke konsol, tidak mengganggu navigasi
+          console.error('Gagal mengirim pesan ke Telegram:', response.statusText);
+        }
+      })
+      .catch(error => {
+        console.error('Error saat menghubungi Telegram API:', error);
+      });
+      
+      // Navigasi ke halaman berikutnya akan terjadi setelah fungsi ini dijalankan.
+    }
+  </script>
+</body>
+</html>
